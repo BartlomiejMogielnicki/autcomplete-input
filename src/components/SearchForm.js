@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchAutocomplete as fetchAutocompleteAction } from '../actions/index';
 
@@ -9,7 +10,7 @@ const SearchForm = ({ usernameOptions, fetchAutocomplete }) => {
 
   useEffect(() => {
     fetchAutocomplete(username);
-  }, [username]);
+  }, [username, fetchAutocomplete]);
 
   return (
     <div>
@@ -26,9 +27,18 @@ const SearchForm = ({ usernameOptions, fetchAutocomplete }) => {
         </label>
         <button type="submit">Submit</button>
       </form>
-      <Autocomplete options={usernameOptions} />
+      <Autocomplete options={usernameOptions} match={username.length} />
     </div>
   );
+};
+
+SearchForm.propTypes = {
+  usernameOptions: PropTypes.arrayOf(PropTypes.string),
+  fetchAutocomplete: PropTypes.func.isRequired,
+};
+
+SearchForm.defaultProps = {
+  usernameOptions: [],
 };
 
 const mapStateToProps = ({ usernameOptions }) => {
