@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { fetchAutocomplete as fetchAutocompleteAction } from '../actions/index';
 
-import { fetchAutocomplete } from '../actions/index';
-
-const SearchForm = () => {
+const SearchForm = ({ usernameOptions, fetchAutocomplete }) => {
   const [username, setUsername] = useState('');
 
   useEffect(() => {
     if (username.length > 0) {
       fetchAutocomplete(username);
     }
-  });
+  }, [username]);
 
   return (
     <form action="">
@@ -28,4 +28,12 @@ const SearchForm = () => {
   );
 };
 
-export default SearchForm;
+const mapStateToProps = ({ usernameOptions }) => {
+  return { usernameOptions };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchAutocomplete: (username) => dispatch(fetchAutocompleteAction(username)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);
