@@ -10,9 +10,12 @@ export const fetchAutocomplete = (username) => (dispatch) => {
     .then((payload) =>
       dispatch({
         type: SHOW_AUTOCOMPLETE,
-        payload: payload.data.filter((item) =>
-          item.username.toLowerCase().startsWith(username.toLowerCase())
-        ),
+        payload: payload.data.filter((item) => {
+          if (!username || username === '') {
+            return null;
+          }
+          return item.username.toLowerCase().startsWith(username.toLowerCase());
+        }),
       })
     )
     .catch((error) => console.log(error));
