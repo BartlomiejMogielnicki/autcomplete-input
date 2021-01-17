@@ -7,14 +7,22 @@ import Autocomplete from './Autocomplete';
 
 const SearchForm = ({ usernameOptions, fetchAutocomplete }) => {
   const [username, setUsername] = useState('');
+  const [hideOptions, setHideOptions] = useState(false);
 
   useEffect(() => {
-    fetchAutocomplete(username);
-  }, [username, fetchAutocomplete]);
+    if (!hideOptions) {
+      fetchAutocomplete(username);
+    }
+  }, [username, fetchAutocomplete, hideOptions]);
+
+  const setUserWithAutocomplete = (option) => {
+    setHideOptions(true);
+    setUsername(option);
+  };
 
   return (
     <div>
-      <form action="">
+      <form>
         <label htmlFor="username">
           Username
           <input
@@ -22,12 +30,21 @@ const SearchForm = ({ usernameOptions, fetchAutocomplete }) => {
             id="username"
             placeholder="Enter username"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => {
+              setHideOptions(false);
+              setUsername(e.target.value);
+            }}
           />
         </label>
         <button type="submit">Submit</button>
       </form>
-      <Autocomplete options={usernameOptions} match={username.length} />
+      {!hideOptions && (
+        <Autocomplete
+          options={usernameOptions}
+          match={username.length}
+          clicked={setUserWithAutocomplete}
+        />
+      )}
     </div>
   );
 };
