@@ -1,0 +1,40 @@
+.wrapper {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+form {
+  display: flex;
+}
+
+label,
+input {
+  margin-top: 10px;
+  display: block;
+}
+
+input {
+  padding: 10px 20px;
+  width: 250px;
+  background-color: #eee;
+  border: none;
+  font-size: 1rem;
+}
+
+button {
+  padding: 10px;
+  margin-left: 5px;
+  align-self: flex-end;
+  background-color: dodgerblue;
+  color: #fff;
+  font-size: 1rem;
+  border: none;
+  transition: 0.2s;
+}
+
+button:hover {
+  background-color: royalblue;
+  cursor: pointer;
+}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchAutocomplete as fetchAutocompleteAction } from '../actions/index';
+import styles from './SearchForm.module.css';
 
 import Autocomplete from './Autocomplete';
 
@@ -21,7 +22,7 @@ const SearchForm = ({ usernameOptions, fetchAutocomplete }) => {
   };
 
   return (
-    <div>
+    <div className={styles.wrapper}>
       <form>
         <label htmlFor="username">
           Username
@@ -29,6 +30,7 @@ const SearchForm = ({ usernameOptions, fetchAutocomplete }) => {
             type="text"
             id="username"
             placeholder="Enter username"
+            autoComplete="off"
             value={username}
             onChange={(e) => {
               setHideOptions(false);

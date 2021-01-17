@@ -1,0 +1,22 @@
+.wrapper {
+  width: 250px;
+}
+
+li {
+  padding: 10px 20px;
+  background-color: #eee;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+li:nth-child(odd) {
+  border-bottom: none;
+}
+
+li:last-of-type {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+li:hover {
+  background-color: #ccc;
+  cursor: pointer;
+}
