@@ -8,22 +8,65 @@ import Autocomplete from './Autocomplete';
 
 const SearchForm = ({ usernameOptions, fetchAutocomplete }) => {
   const [username, setUsername] = useState('');
-  const [hideOptions, setHideOptions] = useState(false);
+  const [hideOptions, setHideOptions] = useState(true);
+  const [focusedOptionIndex, setFocusedOptionIndex] = useState(null);
+
+  const handleKeyPress = (e) => {
+    if (e.keyCode === 40) {
+      if (focusedOptionIndex === null) {
+        setFocusedOptionIndex(0);
+      } else if (focusedOptionIndex < usernameOptions.length) {
+        setFocusedOptionIndex(focusedOptionIndex + 1);
+      }
+    }
+    if (e.keyCode === 38) {
+      if (
+        focusedOptionIndex < usernameOptions.length &&
+        focusedOptionIndex > 0
+      ) {
+        setFocusedOptionIndex(focusedOptionIndex - 1);
+      }
+    }
+    if (e.keyCode === 13 && usernameOptions !== [] && !hideOptions) {
+      e.preventDefault();
+      setUsername(usernameOptions[focusedOptionIndex]);
+      setHideOptions(true);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyPress);
+    return function cleanup() {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  });
 
   useEffect(() => {
     if (!hideOptions) {
       fetchAutocomplete(username);
+      setFocusedOptionIndex(null);
     }
-  }, [username, fetchAutocomplete, hideOptions]);
+  }, [username, fetchAutocomplete, hideOptions, setFocusedOptionIndex]);
 
   const setUserWithAutocomplete = (option) => {
     setHideOptions(true);
     setUsername(option);
   };
 
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (username === '') {
+      alert('Please enter username');
+      return;
+    }
+    alert('Form submitted with username ' + username);
+    setHideOptions(true);
+    setUsername('');
+  };
+
   return (
     <div className={styles.wrapper}>
-      <form>
+      <form onSubmit={handleFormSubmit}>
         <label htmlFor="username">
           Username
           <input
@@ -45,6 +88,7 @@ const SearchForm = ({ usernameOptions, fetchAutocomplete }) => {
           options={usernameOptions}
           match={username.length}
           clicked={setUserWithAutocomplete}
+          focusIndex={focusedOptionIndex}
         />
       )}
     </div>

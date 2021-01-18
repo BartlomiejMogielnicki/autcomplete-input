@@ -20,3 +20,7 @@ li:hover {
   background-color: #ccc;
   cursor: pointer;
 }
+
+.focus {
+  background-color: dodgerblue;
+}
