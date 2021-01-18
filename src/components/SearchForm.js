@@ -15,7 +15,7 @@ const SearchForm = ({ usernameOptions, fetchAutocomplete }) => {
     if (e.keyCode === 40) {
       if (focusedOptionIndex === null) {
         setFocusedOptionIndex(0);
-      } else if (focusedOptionIndex < usernameOptions.length) {
+      } else if (focusedOptionIndex < usernameOptions.length - 1) {
         setFocusedOptionIndex(focusedOptionIndex + 1);
       }
     }
@@ -27,7 +27,7 @@ const SearchForm = ({ usernameOptions, fetchAutocomplete }) => {
         setFocusedOptionIndex(focusedOptionIndex - 1);
       }
     }
-    if (e.keyCode === 13 && usernameOptions !== [] && !hideOptions) {
+    if (e.keyCode === 13 && focusedOptionIndex !== null) {
       e.preventDefault();
       setUsername(usernameOptions[focusedOptionIndex]);
       setHideOptions(true);
